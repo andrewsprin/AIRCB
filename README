@@ -1,0 +1,9 @@
+Andy's IRC Bot
+==============
+IRC bot that can help with a few different tasks. Including the following:
+
+	-Joining external servers to a specific room
+	-Informing users of the bots external IP
+	-Reading files out in a PM (must be in the bots directory)
+	*Doing dice rolls for Pen and Paper Role Playing Games
+
