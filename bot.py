@@ -40,12 +40,6 @@ def hello():
 def roll():
   # TODO make it roll a number here
   sendmsg(channel, str(random.randint(1, 20)))
-  
-def func1(newnick):
-  ircsock.send("PRIVMSG "+ channel +" :func1!\n")
-  
-def func1():
-  sendmsg(channel, "Function 1 Would Be Here")
     
 ###############################################################################
 #Joke Functions
@@ -86,8 +80,6 @@ while 1:
 
   if ircmsg.find(":Hello "+ botnick) != -1:
     hello()
-  if ircmsg.find(":func1 ") != -1:
-    func1()
   if ircmsg.find(":tell a joke "+ botnick) != -1:
     joke()
   if ircmsg.find(":why did frodo cross the road "+ botnick) != -1:
