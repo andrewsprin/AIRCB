@@ -4,13 +4,13 @@ import random
 
 ###############################################################################
 # Variables for the main server
-server = "irc.freenode.net" 		# CONFIGURE
-channel = "#channel"			# CONFIGURE
+server = "127.0.0.1" 		# CONFIGURE
+channel = "##"			# CONFIGURE
 botnick = "gollum"			# CONFIGURE 
 botdesc = "A mindless little guy"	# CONFIGURE
 #Funny vars for the main server
 worship = False
-master = "yournick"			# CONFIGURE
+master = "##"			# CONFIGURE
 
 # Variables for the MetaServer (backup server that gives external IP 
 # When prompted
@@ -40,6 +40,34 @@ def hello():
 def roll():
   # TODO make it roll a number here
   sendmsg(channel, str(random.randint(1, 20)))
+  
+def func1(newnick):
+  ircsock.send("PRIVMSG "+ channel +" :func1!\n")
+  
+def func1():
+  sendmsg(channel, "Function 1 Would Be Here")
+    
+###############################################################################
+#Joke Functions
+###############################################################################
+
+def jokea(newnick): # This function responds to a user that inputs "Hello Mybot"
+  ircsock.send("PRIVMSG "+ channel +" :why did frodo cross the road!\n")
+
+def jokea():
+  sendmsg(channel, "The chicken was his guide!")
+
+def jokeb(newnick): # This function responds to a user that inputs "Hello Mybot"
+  ircsock.send("PRIVMSG "+ channel +" :why did gimli cross the road!\n")
+
+def jokeb():
+  sendmsg(channel, "He Didn't, He was tossed!")
+
+def joke(newnick): # This function responds to a user that inputs "Hello Mybot"
+  ircsock.send("PRIVMSG "+ channel +" :tell a joke!\n")
+
+def joke():
+  sendmsg(channel, "I don't Really Know Any Good Jokes... Why Dont You Ask Smeagul.")
 
 ###############################################################################
 #Begin the fun (Entry Point)
@@ -58,6 +86,14 @@ while 1:
 
   if ircmsg.find(":Hello "+ botnick) != -1:
     hello()
+  if ircmsg.find(":func1 ") != -1:
+    func1()
+  if ircmsg.find(":tell a joke "+ botnick) != -1:
+    joke()
+  if ircmsg.find(":why did frodo cross the road "+ botnick) != -1:
+    jokea()
+  if ircmsg.find(":why did gimli cross the road "+ botnick) != -1:
+    jokeb()
   if ircmsg.find("PING :") != -1: #Need to respond for some things
     ping()
   if ircmsg.find(":" + master) != -1:
