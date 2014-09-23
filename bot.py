@@ -1,11 +1,22 @@
 #! /usr/bin/python
+"""
+Simple IRC Robot
+================
+
+Usage
+=====
+
+"""
+
+
 import socket
 import random
+import ipgetter
 
-###############################################################################
+###########################################################################
 # Variables for the main server
-server = "127.0.0.1" 		# CONFIGURE
-channel = "##"			# CONFIGURE
+server = "##" 		# CONFIGURE
+channel = "#voices"			# CONFIGURE
 botnick = "gollum"			# CONFIGURE 
 botdesc = "A mindless little guy"	# CONFIGURE
 #Funny vars for the main server
@@ -13,14 +24,12 @@ worship = False
 master = "##"			# CONFIGURE
 
 # Variables for the MetaServer (backup server that gives external IP 
-# When prompted
-#
-###############################################################################
+# when prompted
+###########################################################################
 
-###############################################################################
+###########################################################################
 #Function Definition
-###############################################################################
-
+###########################################################################
 def ping():
   #Essential Fn Responds to server pings
   ircsock.send("PONG :Pong\n")  
@@ -40,10 +49,13 @@ def hello():
 def roll():
   # TODO make it roll a number here
   sendmsg(channel, str(random.randint(1, 20)))
+
+def ip():
+  sendmsg(channel, ipgetter.myip())
     
-###############################################################################
+###########################################################################
 #Joke Functions
-###############################################################################
+###########################################################################
 
 def jokea(newnick): # This function responds to a user that inputs "Hello Mybot"
   ircsock.send("PRIVMSG "+ channel +" :why did frodo cross the road!\n")
@@ -63,9 +75,9 @@ def joke(newnick): # This function responds to a user that inputs "Hello Mybot"
 def joke():
   sendmsg(channel, "I don't Really Know Any Good Jokes... Why Dont You Ask Smeagul.")
 
-###############################################################################
+###########################################################################
 #Begin the fun (Entry Point)
-###############################################################################
+###########################################################################
 
 ircsock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 ircsock.connect((server, 6667)) # Standard Port Number
@@ -79,24 +91,18 @@ while 1:
   print(ircmsg) # Here we print what's coming from the server
 
   if ircmsg.find(":Hello "+ botnick) != -1:
-    hello()
+	hello()
   if ircmsg.find(":tell a joke "+ botnick) != -1:
     joke()
   if ircmsg.find(":why did frodo cross the road "+ botnick) != -1:
     jokea()
   if ircmsg.find(":why did gimli cross the road "+ botnick) != -1:
     jokeb()
-  if ircmsg.find("PING :") != -1: #Need to respond for some things
-    ping()
-  if ircmsg.find(":" + master) != -1:
-	if worship:
-		sendmsg(channel, "and so it was written.")
-  if ircmsg.find(botnick + ": worship") != -1:
-	worship = not worship
-  if ircmsg.find(botnick + ": master") != -1:
-	#TODO Fix this
-	print("Should be switching master here, but this is broken")
+  if ircmsg.find("PING :") != -1:
+	ping()
   if ircmsg.find(botnick + ": roll") != -1:
 	roll()
+  if ircmsg.find(botnick + ": ip") != -1:
+	ip()
 
 
