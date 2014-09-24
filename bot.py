@@ -12,6 +12,7 @@ Usage
 import socket
 import random
 import ipgetter
+import inputProc
 
 ###########################################################################
 # Variables for the main server
@@ -19,9 +20,6 @@ server = "##" 		# CONFIGURE
 channel = "#voices"			# CONFIGURE
 botnick = "gollum"			# CONFIGURE 
 botdesc = "A mindless little guy"	# CONFIGURE
-#Funny vars for the main server
-worship = False
-master = "##"			# CONFIGURE
 
 # Variables for the MetaServer (backup server that gives external IP 
 # when prompted
@@ -52,8 +50,17 @@ def roll():
 
 def ip():
   sendmsg(channel, ipgetter.myip())
-    
-###########################################################################
+
+def getUserName(delim, string):
+	pos = string.index(delim)
+	return string[0: pos]
+
+def lookFor(query, string):
+    options = string.split()
+    for s in options:
+        if s.find(query) != -1:
+            return s
+
 #Joke Functions
 ###########################################################################
 
